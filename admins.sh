@@ -4,10 +4,6 @@
 # ========================================================================================
 function logs()
 {
-
-  # TODO
-  # pridat nejake logy
-
   st[0]=' Looking up server ...';
   st[1]=' -!- : Not connected to server ...';
   st[2]=' -!- : Connecting to server [147.32.30.146] port 6667 ...';
@@ -17,6 +13,31 @@ function logs()
   st[6]=' !server *** No Ident response ...';
   st[7]=' !server *** Found your hostname ...';
   st[8]=' Received disconnect from 202.108.59.119: 11: disconnected by user';
+  st[9]=' Connection closed by 147.32.127.234 [preauth]';
+  st[10]=' pam_unix(cron:session): session opened for user root by (uid=0)';
+  st[11]=' pam_unix(cron:session): session closed for user root';
+  st[12]=' /dev/hvc0: No such file or directory';
+  st[13]=' Failed password for kevin from 220.226.210.52 port 33836 ssh2';
+  st[14]=' Connection from UDP: [147.32.30.184]:57960->[147.32.30.146]:161';
+  st[15]=' init: Id "1" respawning too fast: disabled for 5 minutes';
+  st[16]=' EXT4-fs (xvda1): mounting ext2 file system using the ext4 subsystem';
+  st[17]=' EXT4-fs (xvda1): mounted filesystem without journal. Opts: (null)';
+  st[18]=' reverse mapping checking failed - POSSIBLE BREAK-IN ATTEMPT! ';
+  st[19]=' pinger[28698]: segfault at 0 ip 00007fe9beafa26a';
+  st[20]=' [sched_delayed] sched: RT throttling activated';
+  st[21]=' Connection from UDP: [147.32.30.184]:51729->[147.32.30.146]:161';
+  st[22]=' WARNING [ssh] Ban 43.229.53.24';
+  st[23]=' WARNING [ssh] Ban 220.226.210.52';
+  st[24]=' Invalid user ryan from 220.226.210.52';
+  st[25]=' input_userauth_request: invalid user ryan [preauth]';
+  #st[26]=' ';
+  #st[27]=' ';
+  #st[28]=' ';
+  #st[29]=' ';
+  #st[30]=' ';
+  #st[31]=' ';
+  #st[32]=' ';
+  #st[32]=' ';
   
   declare -a out
   declare -a long
@@ -89,9 +110,9 @@ function logs()
     do
       if [[ $last -eq ${#st[@]} ]]    # zaciname znova od zacatku
       then
-        # koncime cyklus
-        break
-        #last=0
+        #last=0 # pro vypis od zacatku
+        # koncime
+        return
       fi
 
       # odmazavat vypsane radky od prvniho od zadu - prepisovat nahodnymi znaky a pak mezerami
@@ -125,8 +146,6 @@ function logs()
       
     done
   done
-
-  sleep 10
 }
 # ========================================================================================
 function vertical()
@@ -217,6 +236,7 @@ function main()
   do
     main
     logs
+    sleep 10
     # TODO - smazat celou obrazovku
   done
 

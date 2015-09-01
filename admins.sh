@@ -50,8 +50,7 @@ function logs()
   setterm -cursor on
   tput cup $pos_y $((pos_x + 1))
 
-  # TODO
-  win_size=6   # prvni parametr
+  win_size=$box_y   # prvni parametr
 
   # TODO
   # vypis logu
@@ -67,13 +66,6 @@ function logs()
       out[$j]=$(date "+%d-%m-%Y %H:%M:%S")${st[$j]}    # update logu - pridame aktualni datum
       while [[ $k -lt ${#out[$j]} ]] # pres delku radku
       do
-        #if [[ $k -eq $4 ]]  #   jsme na konci okna
-        #then
-        #   tput cup $((j + $1 + 1 + ind)) $2   # posun na dalsi radek
-        #   ((ind++))
-        #   long[$i]=1   # radek $i je vypsan na dalsi radek
-        #fi
-
         echo -en "\e[1;31m${out[$j]:$k:1}\e[0m"; 
         sleep 0.05
         ((k++))
@@ -132,38 +124,9 @@ function logs()
 
   sleep 10
 }
-
 # ========================================================================================
-function main()
+function vertical()
 {
-  ins[0]='                                                                                      '; 
-  ins[1]='  $$$$$$\        $$\               $$\                            $$$$$$\  $$\   $$\  '; 
-  ins[2]=' $$  __$$\       $$ |              \__|                          $$  __$$\ $$ |  $$ | '; 
-  ins[3]=' $$ /  $$ | $$$$$$$ |$$$$$$\$$$$\  $$\ $$$$$$$\   $$$$$$$\       $$ /  \__|$$ |  $$ | '; 
-  ins[4]=' $$$$$$$$ |$$  __$$ |$$  _$$  _$$\ $$ |$$  __$$\ $$  _____|      \$$$$$$\  $$$$$$$$ | '; 
-  ins[5]=' $$  __$$ |$$ /  $$ |$$ / $$ / $$ |$$ |$$ |  $$ |\$$$$$$\         \____$$\ $$  __$$ | '; 
-  ins[6]=' $$ |  $$ |$$ |  $$ |$$ | $$ | $$ |$$ |$$ |  $$ | \____$$\       $$\   $$ |$$ |  $$ | '; 
-  ins[7]=' $$ |  $$ |\$$$$$$$ |$$ | $$ | $$ |$$ |$$ |  $$ |$$$$$$$  |      \$$$$$$  |$$ |  $$ | '; 
-  ins[8]=' \__|  \__| \_______|\__| \__| \__|\__|\__|  \__|\_______/        \______/ \__|  \__| '; 
-  ins[9]='                                                                                      '; 
-  
-  # pozadi - horizontalni vypis
-  #i=0 
-  #tput clear; 
-  #while [[ $i -lt `tput lines` ]];   # pres vsechny radky
-  #do 
-  #  j=0; 
-  #  while [[ $j -lt `tput cols` ]]; # pres vsechny sloupce
-  #  do 
-  #    #tput cup $j $i; 
-  #    echo -en "\e[1;32m#\e[0m"; 
-  #    ((j++)); 
-  #  done; 
-  #    echo -e "\e[1;32m\e[0m"; 
-  #  #sleep 0.05; 
-  #  ((i++)); 
-  #done; 
-
   # pozadi - vertikalni vypis
   i=0 
   tput clear; 
@@ -179,7 +142,50 @@ function main()
     #sleep 0.05; 
     ((i++)); 
   done; 
+}
+# ========================================================================================
+function horizontal()
+{
+  # pozadi - horizontalni vypis
+  i=0 
+  while [[ $i -lt `tput lines` ]];   # pres vsechny radky
+  do 
+    j=0; 
+    while [[ $j -lt `tput cols` ]]; # pres vsechny sloupce
+    do 
+      echo -en "\e[1;32m#\e[0m"; 
+      ((j++)); 
+    done; 
+      echo -e "\e[1;32m\e[0m"; 
+    #sleep 0.05; 
+    ((i++)); 
+  done; 
+}
+# ========================================================================================
+function main()
+{
+  ins[0]='                                                                                      '; 
+  ins[1]='  $$$$$$\        $$\               $$\                            $$$$$$\  $$\   $$\  '; 
+  ins[2]=' $$  __$$\       $$ |              \__|                          $$  __$$\ $$ |  $$ | '; 
+  ins[3]=' $$ /  $$ | $$$$$$$ |$$$$$$\$$$$\  $$\ $$$$$$$\   $$$$$$$\       $$ /  \__|$$ |  $$ | '; 
+  ins[4]=' $$$$$$$$ |$$  __$$ |$$  _$$  _$$\ $$ |$$  __$$\ $$  _____|      \$$$$$$\  $$$$$$$$ | '; 
+  ins[5]=' $$  __$$ |$$ /  $$ |$$ / $$ / $$ |$$ |$$ |  $$ |\$$$$$$\         \____$$\ $$  __$$ | '; 
+  ins[6]=' $$ |  $$ |$$ |  $$ |$$ | $$ | $$ |$$ |$$ |  $$ | \____$$\       $$\   $$ |$$ |  $$ | '; 
+  ins[7]=' $$ |  $$ |\$$$$$$$ |$$ | $$ | $$ |$$ |$$ |  $$ |$$$$$$$  |      \$$$$$$  |$$ |  $$ | '; 
+  ins[8]=' \__|  \__| \_______|\__| \__| \__|\__|\__|  \__|\_______/        \______/ \__|  \__| '; 
+  ins[9]='                                                                                      '; 
   
+  # pozadi - horizontalni vypis
+  tput clear; 
+  if [[ $vert -eq 1 ]]
+  then
+    vertical
+    vert=0
+  else
+    horizontal
+    vert=1
+  fi
+
   setterm -cursor off
   # napis
   pos_x=$(((`tput cols` - ${#ins[0]}) / 2));    # stred obrazovky
@@ -200,36 +206,14 @@ function main()
     done;
   sleep 3;
 
-  ## prazdne okno
-  #i=0 
-  #box_x=60
-  #box_y=6
-  #pos_x=$(((`tput cols` - box_x) / 2));  # pocatecni pozice pro vykreslovani prazdneho obdelniku
-  #pos_y=$(((`tput lines` - ${#ins[@]}) / 2 + 8)); # vykresleny napis + 8
-
-  #while [[ $i -lt $box_x ]]
-  #  do 
-  #    j=0
-  #    while [[ $j -lt $box_y ]]
-  #    do 
-  #      tput cup $((pos_y + j)) $((pos_x + 1 + i)); 
-  #      echo -en " ";
-  #      ((j++));
-  #    done;
-  #    #sleep 0.05;
-  #    ((i++));
-  #  done;
-  #sleep 3;
-
-  #setterm -cursor on
-  # nastavime kurzor na zacatek vypisu
-  #tput cup $pos_y $((pos_x + 1))
   logs
 }
-
 # ========================================================================================
 
-# TODO
-
-  main
+  vert=1
+  while :
+  do
+    main
+    # TODO - smazat celou obrazovku
+  done
 

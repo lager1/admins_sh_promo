@@ -108,13 +108,6 @@ function logs()
     i=0
     while :
     do
-      if [[ $last -eq ${#st[@]} ]]    # zaciname znova od zacatku
-      then
-        #last=0 # pro vypis od zacatku
-        # koncime
-        return
-      fi
-
       # odmazavat vypsane radky od prvniho od zadu - prepisovat nahodnymi znaky a pak mezerami
       for((l = ${#out[(($last - $win_size))]}; l >= 0; l--))
       do
@@ -135,9 +128,17 @@ function logs()
         ((k++))
       done
       sleep 1.5
-      echo -e "\e[1;31m\e[0m"; 
       last=$((++j))
       ((i++))
+      
+      if [[ $last -eq ${#st[@]} ]]    # zaciname znova od zacatku
+      then
+        #last=0 # pro vypis od zacatku
+        # koncime
+        return
+      fi
+ 
+      echo -e "\e[1;31m\e[0m"; 
 
       if [[ $i -eq $win_size ]]
       then
@@ -171,7 +172,8 @@ function horizontal()
 {
   # pozadi - horizontalni vypis
   i=0 
-  while [[ $i -lt `tput lines` ]];   # pres vsechny radky
+  # TODO
+  while [[ $i -lt $((`tput lines` - 1)) ]];   # pres vsechny radky
   do 
     j=0; 
     while [[ $j -lt `tput cols` ]]; # pres vsechny sloupce
@@ -198,7 +200,6 @@ function main()
   ins[8]=' \__|  \__| \_______|\__| \__| \__|\__|\__|  \__|\_______/        \______/ \__|  \__| '; 
   ins[9]='                                                                                      '; 
   
-  # pozadi - horizontalni vypis
   tput clear; 
   if [[ $vert -eq 1 ]]
   then

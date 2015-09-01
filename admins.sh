@@ -172,8 +172,7 @@ function horizontal()
 {
   # pozadi - horizontalni vypis
   i=0 
-  # TODO
-  while [[ $i -lt $((`tput lines` - 1)) ]];   # pres vsechny radky
+  while [[ $i -lt `tput lines` ]];   # pres vsechny radky
   do 
     j=0; 
     while [[ $j -lt `tput cols` ]]; # pres vsechny sloupce
@@ -181,9 +180,14 @@ function horizontal()
       echo -en "\e[1;32m#\e[0m"; 
       ((j++)); 
     done; 
-      echo -e "\e[1;32m\e[0m"; 
-    #sleep 0.05; 
     ((i++)); 
+    if [[ $i -eq `tput lines` ]]
+    then
+      break
+    fi
+
+    echo -e "\e[1;32m\e[0m"; 
+    #sleep 0.05; 
   done; 
 }
 # ========================================================================================
@@ -232,7 +236,7 @@ function main()
 }
 # ========================================================================================
 
-  vert=1
+  vert=0
   while :
   do
     main

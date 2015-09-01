@@ -150,6 +150,7 @@ function logs()
 function vertical()
 {
   # pozadi - vertikalni vypis
+  tput cup 0 0
   i=0 
   tput clear; 
   while [[ $i -lt `tput cols` ]];   # pres vsechny sloupce
@@ -169,6 +170,7 @@ function vertical()
 function horizontal()
 {
   # pozadi - horizontalni vypis
+  tput cup 0 0
   i=0 
   while [[ $i -lt `tput lines` ]];   # pres vsechny radky
   do 
@@ -202,7 +204,6 @@ function main()
   ins[8]=' \__|  \__| \_______|\__| \__| \__|\__|\__|  \__|\_______/        \______/ \__|  \__| '; 
   ins[9]='                                                                                      '; 
   
-  tput clear; 
   if [[ $vert -eq 1 ]]
   then
     vertical
@@ -233,13 +234,27 @@ function main()
   sleep 3;
 }
 # ========================================================================================
+function clear_scr()
+{
+  tput cup `tput lines` `tput cols`
+  for((i = $((`tput lines`)); i >= 0; i--))
+  do
+    for((j = $((`tput cols` - 1)); j >= 0; j--))
+    do 
+      tput cup $i $j
+      echo -en "\e[1;32m \e[0m"; 
+    done; 
+  done; 
+}
+# ========================================================================================
 
-  vert=0
+  vert=1
+  tput clear
   while :
   do
     main
     logs
     sleep 10
-    # TODO - smazat celou obrazovku
+    clear_scr
   done
 

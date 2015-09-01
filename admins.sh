@@ -6,11 +6,6 @@ function logs()
 {
 
   # TODO
-  # logy nesmi byt delsi nez window_size -> rozdelit na vice radek
-  # nebo log vypisovat na vice radek ? :D
-  # pokud to bude rozdelene, tak to bude na picu -> na konci kazdeho vypsaneho radku je pauza ... 
-  # navic pred kazdy novy radek je pridavano aktualni datum
-  # ale odmazavani casti radku bude dost problem :D
   # pridat nejake logy
 
   st[0]=' Looking up server ...';
@@ -26,13 +21,23 @@ function logs()
   declare -a out
   declare -a long
 
-  # prazdne okno
+  i=0
+  box_x=0   # urcime maximalni sirku okna podle nejdelsiho logu
+  for ((i = 0; i < ${#st[@]}; i++)) 
+  do
+    # navic pocitame velikost pridaneho datumu
+    if [[ $((${#st[$i]} + 19)) -gt $box_x ]]
+    then
+      box_x=$((${#st[$i]} + 19))
+    fi
+  done
+
   i=0 
-  box_x=60
-  box_y=6
+  box_y=8           # vyska okna, kam vypisujeme logy
   pos_x=$(((`tput cols` - box_x) / 2));  # pocatecni pozice pro vykreslovani prazdneho obdelniku
   pos_y=$(((`tput lines` - ${#ins[@]}) / 2 + 8)); # vykresleny napis + 8
 
+  # prazdne okno
   while [[ $i -lt $box_x ]]
     do 
       j=0
@@ -50,11 +55,8 @@ function logs()
   setterm -cursor on
   tput cup $pos_y $((pos_x + 1))
 
-  win_size=$box_y   # prvni parametr
+  win_size=$box_y
 
-  # TODO
-  # vypis logu
-  #while :   # nekonecny cyklus - predelat na pocet logu
   while :
   do
     i=0
@@ -205,8 +207,6 @@ function main()
       ((i++));
     done;
   sleep 3;
-
-  logs
 }
 # ========================================================================================
 
@@ -214,6 +214,7 @@ function main()
   while :
   do
     main
+    logs
     # TODO - smazat celou obrazovku
   done
 

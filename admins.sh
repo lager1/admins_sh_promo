@@ -22,7 +22,7 @@ function logs()
   st[15]=' init: Id "1" respawning too fast: disabled for 5 minutes';
   st[16]=' EXT4-fs (xvda1): mounting ext2 file system using the ext4 subsystem';
   st[17]=' EXT4-fs (xvda1): mounted filesystem without journal. Opts: (null)';
-  st[18]=' reverse mapping checking failed - POSSIBLE BREAK-IN ATTEMPT! ';
+  st[18]=' reverse mapping checking failed - POSSIBLE BREAK-IN ATTEMPT!';
   st[19]=' pinger[28698]: segfault at 0 ip 00007fe9beafa26a';
   st[20]=' [sched_delayed] sched: RT throttling activated';
   st[21]=' Connection from UDP: [147.32.30.184]:51729->[147.32.30.146]:161';
@@ -138,8 +138,6 @@ function logs()
         return
       fi
  
-      echo -e "\e[1;31m\e[0m"; 
-
       if [[ $i -eq $win_size ]]
       then
         i=0

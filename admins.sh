@@ -224,7 +224,7 @@ function main()
       j=0
       while [[ $j -lt $((${#ins[@]} + 1)) ]]
       do 
-        tput cup $((pos_y + j)) $((pos_x + 1 + i)); 
+        tput cup $((pos_y + j)) $((pos_x + i)); 
         echo -en "\e[1;32m${ins[$j]:$i:1}\n\e[0m";
         ((j++));
       done;

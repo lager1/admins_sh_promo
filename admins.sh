@@ -241,6 +241,35 @@ function clear_scr()
   done; 
 }
 # ========================================================================================
+function code()
+{
+  local offset=25
+  local text="This animation is actually written in Bash using the code below"
+  pos_x=$(((`tput cols` - ${#text}) / 2));    # stred obrazovky
+  pos_y=$(((`tput lines` - $offset)));        # stred obrazovky
+  tput cup $pos_y $pos_x
+  for((i = 0; i < ${#text}; i++))
+  do
+    echo -en "\e[1;32m${text:i:1}\e[0m";
+    sleep 0.05
+  done
+
+  sleep 1
+
+  # precti obarveny zdrojovy kod
+  local src=$(./vimcat admins.sh)
+  local len=${#src}
+
+  pos_y=$((pos_y + 5)) # posunuti vuci textu
+  tput cup $pos_y 0   # presun kurzoru
+
+  # vypis zdrojoveho kodu
+  for((i = 0; i < $len; i++))
+  do
+    echo -en "${src:i:1}";
+  done
+}
+# ========================================================================================
 
   vert=1
   tput clear
@@ -250,5 +279,5 @@ function clear_scr()
     logs
     sleep 10
     clear_scr
+    code
   done
-

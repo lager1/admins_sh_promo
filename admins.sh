@@ -49,7 +49,7 @@ function logs()
 
   i=0 
   box_y=8           # vyska okna, kam vypisujeme logy
-  pos_x=$(((`tput cols` - box_x) / 2 - 1));  # pocatecni pozice pro vykreslovani prazdneho obdelniku
+  pos_x=$(((`tput cols` - box_x) / 2));  # pocatecni pozice pro vykreslovani prazdneho obdelniku
   pos_y=$(((`tput lines` - ${#ins[@]}) / 2 + 8)); # vykresleny napis + 8
 
   # prazdne okno

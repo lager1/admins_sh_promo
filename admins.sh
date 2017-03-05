@@ -33,15 +33,17 @@ function logs()
   
   declare -a out
   declare -a long
+  local date_len=$(date "+%d-%m-%Y %H:%M:%S" | wc -c)
+  ((date_len++))    # mezera
 
   i=0
   box_x=0   # urcime maximalni sirku okna podle nejdelsiho logu
   for ((i = 0; i < ${#st[@]}; i++)) 
   do
     # navic pocitame velikost pridaneho datumu
-    if [[ $((${#st[$i]} + 19)) -gt $box_x ]]
+    if [[ $((${#st[$i]} + $date_len)) -gt $box_x ]]
     then
-      box_x=$((${#st[$i]} + 19))
+      box_x=$((${#st[$i]} + $date_len))
     fi
   done
 

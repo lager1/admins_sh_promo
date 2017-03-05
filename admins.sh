@@ -30,14 +30,6 @@ function logs()
   st[23]=' WARNING [ssh] Ban 220.226.210.52';
   st[24]=' Invalid user ryan from 220.226.210.52';
   st[25]=' input_userauth_request: invalid user ryan [preauth]';
-  #st[26]=' ';
-  #st[27]=' ';
-  #st[28]=' ';
-  #st[29]=' ';
-  #st[30]=' ';
-  #st[31]=' ';
-  #st[32]=' ';
-  #st[32]=' ';
   
   declare -a out
   declare -a long

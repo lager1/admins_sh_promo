@@ -257,7 +257,7 @@ function code()
   sleep 1
 
   # precti obarveny zdrojovy kod
-  local src=$(./vimcat admins.sh)
+  local src=$(./vimcat -o - admins.sh)
   local len=${#src}
 
   pos_y=$((pos_y + 5)) # posunuti vuci textu
